@@ -1,0 +1,16 @@
+# This wont allowed any access to file index
+
+Options -Indexes
+
+# Rewrite to send to another file
+
+RewriteEngine On
+
+# Constanst conditions request if a dir or file so    # then go to the index.php
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Whatever is place navigator bar will take it to index
+
+RewriteRule ^(.+)$ index.php/$1 [L]
