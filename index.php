@@ -1,7 +1,7 @@
 <?php 
  session_start();
- // will grab namespace core
- use \Core\Config;
+ // Use to autoload classes 
+ use \Core\{Config, Router};
 
  // define constants
  
@@ -24,9 +24,16 @@
     
  });
 
- $dbName = Config::get('db_name');
- var_dump($dbName);
+ // To get root directory path
+ $rootDir = Config::get('root_dir');
+ define('ROOT', $rootDir);
+
+ // Replace remove any charaters from the nav bar
+ $url = $_SERVER['REQUEST_URI'];
+ $url = str_replace(ROOT, '', $url);
+ $url = preg_replace('/(\?.+)/', '', $url);
+ Router::route($url);
+
  
  
- // use for debug purposes
- //var_dump(DS);
+ 

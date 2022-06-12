@@ -5,7 +5,7 @@ namespace Core;
 class Config {
     private static $config = [
         'version'            => '0.0.1',
-        'root_dir'           => '/cms_template', // This will likely be / on live server
+        'root_dir'           => '/cms_template/', // This will likely be / on live server
         'default_controller' => 'Cursos', // The default home controller
         'default_layout'     => 'default', // Default layoiut that is used
         'default_site_title' => 'Cursosalimentos', // Default Site title
