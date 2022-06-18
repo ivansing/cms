@@ -2,7 +2,8 @@
 
 namespace Core;
 
-use App\Controllers\CursosController;
+
+
 
 // Router class to call all controllers
 
@@ -23,10 +24,19 @@ class Router {
         $action .= 'Action';
         array_shift($urlParts);
 
+        // check if a class exist
+        if(!class_exists($controller)) {
+            throw new \Exception("The controller \" {$controllerName} \"does not exist ");
+        }
         $controllerClass = new $controller($controllerName, $actionName);
+
+        // if class action exist in the object $controller if not kill exucution script with throw exception
+        if (!method_exists($controllerClass, $action)) {
+            throw new \Exception("The method \" {$action} \ 'does not exit ' {$controller}  \"controller.");
+        }
         call_user_func_array([$controllerClass, $action], $urlParts);
-        var_dump($controllerClass);
-        $controller = new CursosController('Cursos', 'indexAction');
+        /*var_dump($controllerClass);
+        $controller = new CursosController('Cursos', 'indexAction');*/
         
     }
 }

@@ -1,4 +1,6 @@
 <?php 
+
+// cookies session
  session_start();
  // Use to autoload classes 
  use \Core\{Config, Router};
@@ -31,6 +33,7 @@
  // Replace remove any charaters from the nav bar
  $url = $_SERVER['REQUEST_URI'];
  $url = str_replace(ROOT, '', $url);
+ // get of rid of any ?. or any numbers symbols
  $url = preg_replace('/(\?.+)/', '', $url);
  Router::route($url);
 
