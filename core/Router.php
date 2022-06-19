@@ -13,7 +13,7 @@ class Router {
         $urlParts = explode('/', $url);
        
         // set controller name  in url
-        $controller = !empty($urlParts[0]) ? $urlParts[0] : Config::get('default_controller');
+        $controller = !empty($urlParts[0])? $urlParts[0] : Config::get('default_controller');
         $controllerName = $controller;
         $controller = '\App\Controllers\\' . ucwords($controller) . 'Controller';
         
@@ -26,17 +26,20 @@ class Router {
 
         // check if a class exist
         if(!class_exists($controller)) {
-            throw new \Exception("The controller \" {$controllerName} \"does not exist ");
+            throw new \Exception("The controller \"{$controllerName}\" does not exist ");
         }
         $controllerClass = new $controller($controllerName, $actionName);
 
         // if class action exist in the object $controller if not kill exucution script with throw exception
         if (!method_exists($controllerClass, $action)) {
-            throw new \Exception("The method \" {$action} \ 'does not exit ' {$controller}  \"controller.");
+            throw new \Exception("The method \"{$action}\" does not exit on the \"{$controller}\" controller.");
+            
         }
         call_user_func_array([$controllerClass, $action], $urlParts);
-        /*var_dump($controllerClass);
-        $controller = new CursosController('Cursos', 'indexAction');*/
+ 
+        
         
     }
+
+    
 }
