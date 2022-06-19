@@ -6,7 +6,7 @@ class Config {
     private static $config = [
         'version'            => '0.0.1',
         'root_dir'           => '/cms_template/', // This will likely be / on live server
-        'default_controller' => 'Curso', // The default home controller
+        'default_controller' => 'Cursos', // The default home controller
         'default_layout'     => 'default', // Default layout that is used
         'default_site_title' => 'Cursosalimentos', // Default Site title
         'db_host'            => '127.0.01', // DB host please use IP address not domain
