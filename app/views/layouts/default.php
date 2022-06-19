@@ -19,6 +19,7 @@
 <?php $this->content('head'); ?>
 </head>
 <body>
+    <?php $this->partial('partials/mainMenu'); ?>
     <div class="container-flud p-4">
         <?php $this->content('content'); ?>
     </div>

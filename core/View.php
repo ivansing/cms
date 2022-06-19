@@ -74,4 +74,12 @@ class View {
         }
      }
 
+     // View partials show elements html
+     public function partial($path) {
+        $fullPath = PROOT . DS . 'app' . DS . 'views' . DS . $path . '.php';
+        if(file_exists($fullPath)) {
+            include($fullPath);
+        }
+     }
+
 }
