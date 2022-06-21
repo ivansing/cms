@@ -80,6 +80,7 @@ class View {
         if(file_exists($fullPath)) {
             include($fullPath);
         }
+        
      }
 
 }

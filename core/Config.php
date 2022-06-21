@@ -9,7 +9,7 @@ class Config {
         'default_controller' => 'Cursos', // The default home controller
         'default_layout'     => 'default', // Default layout that is used
         'default_site_title' => 'Cursosalimentos', // Default Site title
-        'db_host'            => '127.0.01', // DB host please use IP address not domain
+        'db_host'            => '127.0.0.1', // DB host please use IP address not domain
         'db_name'            => 'cms_template', // DB name
         'db_user'            => 'root', // DB user
         'db_password'        => '', // DB password
