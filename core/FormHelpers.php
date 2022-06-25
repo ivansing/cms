@@ -2,6 +2,8 @@
 namespace Core;
 
 class FormHelpers {
+
+    // Input register form 
     public static function inputBlock($label, $id, $value, $inputAttrs = [], $wrapperAttrs = [], $errors = []) {
         $wrapperStr = self::processAttrs($wrapperAttrs);
         $inputAttrs = self::appendErrors($id, $inputAttrs, $errors);
@@ -15,6 +17,25 @@ class FormHelpers {
         
     }
 
+    // Select block for Admin or User privilegues
+    public static function selectBlock($label, $id, $value, $options, $inputAttrs = [], $wrapperAttrs = [], $errors= []) {
+        $inputAttrs = self::appendErrors($id, $inputAttrs, $errors);
+        $inputAttrs = self::processAttrs($inputAttrs);
+        $wrapperStr = self::processAttrs($wrapperAttrs);
+        $errorMsg = array_key_exists($id, $errors)?  $errors[$id] : "";
+        $html = "<div {$wrapperStr}>";
+        $html .= "<label for='{$id}'>{$label}</label>";
+        $html .= "<select id='{$id}' name='{$id}' {$inputAttrs}";
+        foreach($options as $val => $display) {
+            $selected = $val == $value? ' selected ' : "";
+            $html .= "<option value='{$val}' {$selected}>{$display}</option>";
+        }
+        $html .= "</select>";
+        $html .= "<div class='invalid-feedback'>{$errorMsg}</div></div>";
+        return $html;
+    }
+
+    // Show errors
     public static function appendErrors($key, $inputAttrs, $errors) {
         if(array_key_exists($key, $errors)) {
             if(array_key_exists('class', $inputAttrs)) {

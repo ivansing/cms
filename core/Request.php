@@ -29,7 +29,7 @@ class Request {
     }
 
     public function getRequestMethod() {
-        return strtoupper($_SERVER['REQUEST METHOD']);
+        return strtoupper($_SERVER['REQUEST_METHOD']);
     }
 
     public function get($input = false) {
