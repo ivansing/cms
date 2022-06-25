@@ -50,6 +50,7 @@ class DB {
         return $this;
     }
 
+    // ------- Getters ---------------
     public function query($sql, $bind=[]) {
         $this->execute($sql, $bind);
         if(!$this->_error) {
@@ -59,11 +60,55 @@ class DB {
         return $this;
     }
 
+    // Functions to insert values into the Database as INSERT INTO
+    public function insert($table, $values) {
+        $fields = [];
+        $binds = [];
+        foreach($values as $key => $value) {
+            $fields[] = $key;
+            $binds[] = ":{$key}";
+        }
+        $fielsStr = implode('`, `', $fields);
+        $bindStr = implode(', ', $binds);
+        $sql = "INSERT INTO {$table} (`{$fielsStr}`) VALUES ({$bindStr})";
+        $this->execute($sql, $values);
+        // If not error return true else false
+        return !$this->_error;
+    }
+
+    // Update function to update value into db table
+    public function update($table, $values, $conditions) {
+        $binds = [];
+        $valueStr = "";
+        foreach($values as $field => $value) {
+            $valueStr .= ", `{$field}` = :{$field}";
+            $binds[$field] = $value;
+        }
+        $valueStr = ltrim($valueStr, ', ');
+        $sql = "UPDATE {$table} SET {$valueStr}";
+
+        // Concatenade conditional id 
+        if(!empty($conditions)) {
+            $conditionsStr = " WHERE ";
+            foreach($conditions as $field => $value) {
+                $conditionsStr .= "`{$field}` = :cond{$field} AND ";
+                // Binds to avoid sql injection and shows as JSON format
+                $binds['cond' .$field] = $value;
+            }
+            $conditionsStr = rtrim($conditionsStr, ' AND ');
+            $sql .= $conditionsStr;
+        }
+        $this->execute($sql, $binds);
+        return !$this->_error;
+        Helpers::dnd($binds);
+    }
+
+
     public function results(){
         return $this->_results;
     }
 
-    public function getCount() {
+    public function count() {
         return $this->_rowCount;
     }
 
