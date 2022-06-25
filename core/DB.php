@@ -115,4 +115,13 @@ class DB {
     public function lastInsertId(){
         return $this->_lastInsertId;
     }
+
+    // ---------- Setters -----------
+    public function setClass($class) {
+        $this->_class = $class;
+    }
+
+    public function setFetchType($type) {
+        $this->_fetchType = $type;
+    }
 }
