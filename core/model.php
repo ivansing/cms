@@ -80,6 +80,32 @@ class Model {
         return $total;
     }
 
+    // Save smart method 
+    public function save() {
+        $save = false;
+        $this->beforeSave();
+        // Validation
+        if($this->_validationPassed) {
+            $db = static::getDb();
+            $values = $this->getValuesForSave();
+            if($this->isNew()) {
+                $save = $db->insert(static::$table, $values);
+                if($save) {
+                    $this->id = $db->getLastInsertId();
+                }
+            } else {
+                $save = $db->update(static::$table, $values, ['id' => $this->id]);
+            }
+        }
+        return $save;
+    }
+
+    // Helper function from save()
+    public function isNew() {
+        // If is empty is new id
+        return empty($this->id);
+    }
+
     // SELECT SQL builder 
     public static function selectBuilder($params = []) {
         $columns = array_key_exists('columns', $params)? $params['columns'] : "*";
@@ -139,4 +165,74 @@ class Model {
         }
         return ['sql' => $sql, 'bind' => $bind];
     }
+
+    public function getValuesForSave() {
+        $columns = static::getColumns();
+        $values = [];
+        foreach($columns as $column) {
+            // _skipUpdate it is a empty array
+            if(!in_array($column, $this->_skipUPdate)) {
+                $values[$column] = $this->{$column};
+            }
+        }
+        return $values;
+    }
+
+    // Get columns for first time as a singleton pattern unique
+    public static function getColumns() {
+        if(!static::$columns) {
+            $db = static::getDb();
+            $table = static::$table;
+            $sql = "SHOW COLUMNS FROM {$table}";
+            $results = $db->query($sql)->results();
+            $columns = [];
+            foreach($results as $column) {
+                $columns[] = $column->Field;
+            }
+            static::$columns = $columns;
+        }
+        return static::$columns;
+    }
+
+    // Errors messages
+
+    public function runValidation($validator) {
+        $validates = $validator->runValidation();
+        if(!$validates) {
+            $this->_validationPassed = false;
+            $this->_errors[$validator->field] = $validator->msg;
+        }
+    }
+
+    public function getErrors() {
+        return $this->_errors;
+    }
+
+    public function setError($name, $value) {
+        $this->_errors[$name] = $value;
+    }
+
+    // Timestamp for time creation column
+    public function timeStamp() {
+        $dt = new \DateTime("now", new \DateTimeZone("UTC"));
+        $now = $dt->format('Y-m-d H:i:s');
+        $this->updated_at = $now;
+        if($this->isNew()) {
+            $this->created_at = $now;
+        }
+    }
+
+    // Set pagination
+    public static function mergeWithPagination($params = []) {
+        $request = new Request();
+        $page = $request->get('p');
+        if(!$page || $page < 1) $page = 1;
+        $limit = $request->get('limit') ? $request->get('limit') : 25;
+        $offset = ($page - 1) * $limit;
+        $params['limit'] = $limit;
+        $params['offset'] = $offset;
+        return $params;
+    }
+
+    public function beforeSave(){}
 }

@@ -28,6 +28,7 @@ class DB {
             throw new Exception($e->getMessage());
         }
     }
+    
     // Singleton pattern for various  connection  instances
     public static function getInstance(){
         if(!self::$_db){
