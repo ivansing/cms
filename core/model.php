@@ -5,7 +5,7 @@ use \Core\{DB, Request};
 
 class Model {
     protected static $table = "";
-    protected static $colums = false;
+    protected static $columns = false;
     protected $_validationPassed = true, $_errors = [], $_skipUPdate = [];
 
     // Init db function
@@ -15,6 +15,8 @@ class Model {
             $db->setClass(get_called_class());
             $db->setFetchType(PDO::FETCH_CLASS);
         }
+        /* Helpers::dnd(\PDO::FETCH_CLASS, false);
+        Helpers::dnd($db->getClass());*/ 
         return $db;
     }
 
@@ -53,8 +55,8 @@ class Model {
     // Find the first element in the array
     public static function findFirst($params = []) {
         $db = static::getDb(true);
-        list('sql' => $sql, 'bind' => $bind) = self::queryParamBuilder($params);
-        $result = $db->query($sql, $bind)->result();
+        list('sql' => $sql, 'bind' => $bind) = self::selectBuilder($params);
+        $results = $db->query($sql, $bind)->results();
         return isset($results[0])? $results[0] : false;
     }
 
@@ -91,7 +93,7 @@ class Model {
             if($this->isNew()) {
                 $save = $db->insert(static::$table, $values);
                 if($save) {
-                    $this->id = $db->getLastInsertId();
+                    $this->id = $db->lastInsertId();
                 }
             } else {
                 $save = $db->update(static::$table, $values, ['id' => $this->id]);
@@ -118,7 +120,7 @@ class Model {
     }
 
     // SQL  Builder conditions LIMIT, ORDER, JOIN WHERE clauses SQL
-    public static function queryParamBuilder($param = []) {
+    public static function queryParamBuilder($params = []) {
         $sql = "";
         $bind = array_key_exists('bind', $params)? $params['bind'] : [];
        
@@ -136,7 +138,7 @@ class Model {
         }
         // where
         if(array_key_exists('conditions', $params)) {
-            $conds = $param['conditions'];
+            $conds = $params['conditions'];
             $sql .= " WHERE {$conds}";
         }
 
@@ -161,7 +163,7 @@ class Model {
         // offset
         if(array_key_exists('offset', $params)) {
             $offset = $params['offset'];
-            $sql .= " OFFSET {$limit}";
+            $sql .= " OFFSET {$offset}";
         }
         return ['sql' => $sql, 'bind' => $bind];
     }
@@ -179,7 +181,7 @@ class Model {
     }
 
     // Get columns for first time as a singleton pattern unique
-    public static function getColumns() {
+    public static function getColumns(){
         if(!static::$columns) {
             $db = static::getDb();
             $table = static::$table;
@@ -213,7 +215,7 @@ class Model {
     }
 
     // Timestamp for time creation column
-    public function timeStamp() {
+    public function timeStamps() {
         $dt = new \DateTime("now", new \DateTimeZone("UTC"));
         $now = $dt->format('Y-m-d H:i:s');
         $this->updated_at = $now;

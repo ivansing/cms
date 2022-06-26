@@ -1,6 +1,8 @@
 <?php
 namespace Core;
 
+
+
 class FormHelpers {
 
     // Input register form 
@@ -54,4 +56,15 @@ class FormHelpers {
         }
         return $html;
     }
+
+    
+
+    // If token matches
+    public static function csrfField(){
+        $token = Session::createCsrfToken();
+        $html = "<input type='hidden' value='{$token}' name='csrfToken' />";
+        return $html;
+    }
+
+
 }

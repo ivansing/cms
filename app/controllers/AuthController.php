@@ -13,9 +13,19 @@ class AuthController extends Controller {
             $user = Users::findById($id);
         }
 
+       // Helpers::dnd($user);
+
         // Check if posted any data
         if($this->request->isPost()) {
-            Helpers::dnd($this->request->get());
+            // Method to prevent X site attack when feeling the form
+            Session::csrfCheck();
+            $fields = ['fname', 'lname', 'email', 'acl', 'password', 'confirm'];
+            foreach($fields as $field) {
+                 $user->{$field} = $this->request->get($field);
+            }
+            // Save user 
+            $user->save();
+
         }
 
         $this->view->user = $user;

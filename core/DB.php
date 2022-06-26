@@ -52,11 +52,17 @@ class DB {
     }
 
     // ------- Getters ---------------
+    
     public function query($sql, $bind=[]) {
         $this->execute($sql, $bind);
         if(!$this->_error) {
             $this->_rowCount = $this->_stmt->rowCount();
-            $this->_results = $this->_stmt->fetchAll($this->_fetchType);
+            if($this->_fetchType === PDO::FETCH_CLASS) {
+                $this->_results = $this->_stmt->fetchAll($this->_fetchType, $this->_class);
+            } else {
+                $this->_results = $this->_stmt->fetchAll($this->_fetchType);
+            }
+            
         }
         return $this;
     }
@@ -101,7 +107,7 @@ class DB {
         }
         $this->execute($sql, $binds);
         return !$this->_error;
-        Helpers::dnd($binds);
+        
     }
 
 
@@ -117,6 +123,15 @@ class DB {
         return $this->_lastInsertId;
     }
 
+    // ----------- For debugging purposes methods -------------
+    public function getFetchType() {
+        return $this->_fetchType;
+    }
+
+    public function getClass(){
+        return $this->_class;
+    }
+
     // ---------- Setters -----------
     public function setClass($class) {
         $this->_class = $class;
@@ -125,4 +140,6 @@ class DB {
     public function setFetchType($type) {
         $this->_fetchType = $type;
     }
+
+
 }

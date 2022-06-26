@@ -5,6 +5,7 @@
         <h2>Registro</h2>
 
         <form action="" method="POST">
+            <?= FormHelpers::csrfField();?>
             <div class="row">
                <?= FormHelpers::inputBlock('Primer Nombre', 'fname', $this->user->fname, ['class' => 'form-control'], ['class' => 'form-group col-md-6'], $this->errors); ?>
                <?= FormHelpers::inputBlock('Apellido', 'lname', $this->user->lname, ['class' => 'form-control'], ['class' => 'form-group col-md-6'], $this->errors); ?>
