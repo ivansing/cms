@@ -196,8 +196,9 @@ class Model {
         return static::$columns;
     }
 
-    // Errors messages
+    
 
+    // Form validator method from abstract class Validator
     public function runValidation($validator) {
         $validates = $validator->runValidation();
         if(!$validates) {
@@ -205,6 +206,8 @@ class Model {
             $this->_errors[$validator->field] = $validator->msg;
         }
     }
+
+    // Get Errors messages
 
     public function getErrors() {
         return $this->_errors;

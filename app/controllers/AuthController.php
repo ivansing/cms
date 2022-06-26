@@ -12,6 +12,7 @@ class AuthController extends Controller {
         } else {
             $user = Users::findById($id);
         }
+        
 
        // Helpers::dnd($user);
 

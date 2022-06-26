@@ -41,6 +41,6 @@ class Session {
         }
 
         // Redirect page with no token
-        Router::redirect('auth/badToken');
+       // Router::redirect('auth/badToken');
     }
 }
