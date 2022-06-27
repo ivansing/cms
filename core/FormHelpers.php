@@ -52,7 +52,7 @@ class FormHelpers {
     public static function processAttrs($attrs) {
         $html = "";
         foreach($attrs as $key => $value) {
-            $html .= " {$key}= '{$value}'";
+            $html .= " {$key}='{$value}'";
         }
         return $html;
     }

@@ -1,6 +1,6 @@
 <?php 
 
-// cookies session
+//  session
  session_start();
  // Use to autoload classes 
  use \Core\{Config, Router};

@@ -24,13 +24,16 @@ class Users extends Model {
         $this->runValidation(new RequiredValidator($this, ['field' => 'acl', 'msg' => "La función  es un campo requerido"]));
 
         // If user is new ? save all the fields
-        if($this->isNew()) {
+        if($this->isNew() || $this->resetPassword) {
             $this->runValidation(new RequiredValidator($this, ['field' => 'password', 'msg' => "La contraseña es un campo requerido"]));
             $this->runValidation(new RequiredValidator($this, ['field' => 'confirm', 'msg' => "La confirmación contraseña  es un campo requerido"]));
             $this->runValidation(new MatchesValidator($this, ['field' => 'confirm', 'rule' => $this->password, 'msg' => "Su contraseña no coincide"]));
             $this->runValidation(new MinValidator($this, ['field' => 'password', 'rule' => 8, 'msg' => "La contraseña debe ser de al menos 8 caracteres"]));
 
             $this->password = password_hash($this->password, PASSWORD_DEFAULT);
-        } 
+        } else {
+            // Not update password
+            $this->_skipUpdate = ['password'];
+        }
     }
 }

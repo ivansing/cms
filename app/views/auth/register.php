@@ -2,7 +2,7 @@
 <?php $this->start('content'); ?>
 <div class="row">
     <div class="col-md-8 offset-md-2 poster">
-        <h2>Registro</h2>
+        <h2><?=$this->header ?></h2>
 
         <form action="" method="POST">
              
