@@ -62,8 +62,8 @@ class Model {
 
     // Find element by Id
     public static function findById($id) {
-        return self::findFirst([
-            'conditions' => "id = id",
+        return static::findFirst([
+            'conditions' => "id = :id",
             'bind' => ['id' => $id]
         ]);
     }

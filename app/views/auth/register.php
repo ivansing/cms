@@ -15,8 +15,8 @@
             </div>
 
             <div class="row">
-            <?= FormHelpers::inputBlock('Contraseña', 'password', $this->user->password, ['class' => 'form-control', 'type' => 'password'], ['class' => 'form-group col-md-6'], $this->errors); ?>
-            <?= FormHelpers::inputBlock('Confirmar contraseña', 'confirm', $this->user->confirm, ['class' => 'form-control', 'type' => 'password'], ['class' => 'form-group col-md-6'], $this->errors); ?>
+            <?= FormHelpers::inputBlock('Contraseña', 'password', '', ['class' => 'form-control', 'type' => 'password'], ['class' => 'form-group col-md-6'], $this->errors); ?>
+            <?= FormHelpers::inputBlock('Confirmar contraseña', 'confirm', '', ['class' => 'form-control', 'type' => 'password'], ['class' => 'form-group col-md-6'], $this->errors); ?>
 
             </div>
 
