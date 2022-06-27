@@ -37,6 +37,18 @@ class FormHelpers {
         return $html;
     }
 
+    // Check all fields entries
+    public static function check($label, $id, $checked = '', $inputAttrs=[], $wrapperAttrs=[], $errors=[]){
+        $inputAttrs = self::appendErrors($id, $inputAttrs, $errors);
+        $wrapperStr = self::processAttrs($wrapperAttrs);
+        $inputStr = self::processAttrs($inputAttrs);
+        $checkedStr = $checked == 'on' ? "checked" : "";
+        $html = "<div {$wrapperStr}>";
+        $html .= "<input type=\"checkbox\" id=\"{$id}\" name=\"{$id}\" {$inputStr} {$checkedStr}>";
+        $html .= "<label class=\"form-check-label\" for=\"{$id}\">{$label}</label></div>";
+        return $html;
+    }
+
     // Show errors
     public static function appendErrors($key, $inputAttrs, $errors) {
         if(array_key_exists($key, $errors)) {

@@ -11,7 +11,7 @@ class Cookie {
 
     // Getters and Setters
 
-    public static function set($name) {
+    public static function set($name, $value, $expiry) {
         if(setcookie($name, $value, time()+$expiry, '/')) {
             return true;
         }

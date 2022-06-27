@@ -61,7 +61,8 @@ class Session {
         
          foreach($alerts as $type => $msgs) {
             foreach($msgs as $msg) {
-                $html .= "<div class='alert alert-dismissable alert-{$type}'>{$msg}<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";            }
+                $html .= "<div class='alert alert-dismissable alert-{$type}'>{$msg}<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"; 
+            }
         } 
         self::delete('session_alerts');
         return $html;

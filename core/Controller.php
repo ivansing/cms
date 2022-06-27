@@ -7,7 +7,7 @@ use Core\{View, Config, Request};
 
 
 class Controller {
-    private $_controllerName, $_action;
+    private $_controllerName, $_actionName;
     public $view, $request;
 
     

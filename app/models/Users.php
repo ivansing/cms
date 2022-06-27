@@ -1,12 +1,12 @@
 <?php 
 namespace App\Models;
 
-use Core\Model;
+use Core\{Model, Session, Cookie};
 use Core\Validators\{RequiredValidator, EmailValidator, MatchesValidator, MinValidator, UniqueValidator};
 
 class Users extends Model {
 
-    protected static $table = 'users';
+    protected static $table = 'users', $_current_user = false;
     public $id, $created_at, $updated_at, $fname, $lname, $email, $password, $acl, $blocked = 0, $confirm, $remember = '';
 
     const USER_PERMISSION = 'usuario';
@@ -32,8 +32,23 @@ class Users extends Model {
 
             $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         } else {
+
             // Not update password
             $this->_skipUpdate = ['password'];
         }
     }
-}
+
+    // Validate Login
+    public function validateLogin(){
+        $this->runValidation(new RequiredValidator($this, ['field' => 'email', 'msg' => "El correo electronico es un campo requerido"]));
+        $this->runValidation(new RequiredValidator($this, ['field' => 'password', 'msg' => "La contraseña es un campo requerido"]));
+
+    }
+
+    // Remember session
+    public function login($remember = false) {
+        Session::set('logged_in_user', $this->id);
+        self::$_current_user = $this;
+    } 
+        
+}  

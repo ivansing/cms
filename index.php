@@ -3,7 +3,7 @@
 //  session
  session_start();
  // Use to autoload classes 
- use \Core\{Config, Router};
+ use \Core\{Config, Router, Helpers};
 
  // define constants
  
@@ -29,12 +29,12 @@
  // To get root directory path
  $rootDir = Config::get('root_dir');
  define('ROOT', $rootDir);
+ //Helpers::dnd($_SESSION); check user id session
 
  // Replace remove any charaters from the nav bar
  $url = $_SERVER['REQUEST_URI'];
- $url = str_replace(ROOT, '', $url);
- // get of rid of any ?. or any numbers symbols
- $url = preg_replace('/(\?.+)/', '', $url);
+$url = str_replace(ROOT, '', $url);
+$url = preg_replace('/(\?.+)/', '', $url);
  Router::route($url);
 
  

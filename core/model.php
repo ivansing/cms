@@ -104,7 +104,6 @@ class Model {
 
     // Helper function from save()
     public function isNew() {
-        // If is empty is new id
         return empty($this->id);
     }
 
