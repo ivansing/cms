@@ -39,6 +39,7 @@ class Users extends Model {
         $this->runValidation(new RequiredValidator($this, ['field' => 'password', 'msg' => "La contraseña es un campo requerido."]));
     }
 
+    // Login method db
     public function login($remember = false) {
         Session::set('logged_in_user', $this->id);
         self::$_current_user = $this;
@@ -56,6 +57,7 @@ class Users extends Model {
         }
     }
 
+    //  Finds the user cookie to login in the db
     public static function loginFromCookie() {
         $cookieName = Config::get('login_cookie_name');
         if(!Cookie::exists($cookieName)) return false;
@@ -68,6 +70,18 @@ class Users extends Model {
         }
     }
 
+    // Log out session
+    public function logout(){
+        Session::delete('logged_in_user');
+        self::$_current_user = false;
+        $session = UserSessions::findByUserId($this->id);
+        if($session) {
+            $session->delete();
+        }
+        Cookie::delete(Config::get('login_cookie_name'));
+    }
+
+    // Get current user id from session
     public static function getCurrentUser() {
         if(!self::$_current_user && Session::exists('logged_in_user')) {
             $user_id = Session::get('logged_in_user');
