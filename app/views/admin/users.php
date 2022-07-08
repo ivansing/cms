@@ -26,5 +26,7 @@
              <?php endforeach; ?>   
         </tbody>
     </table>
+
+    <?php $this->partil('partials/pager'); ?>
 </div>
 <?php $this->end(); ?>

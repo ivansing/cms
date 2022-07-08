@@ -20,9 +20,10 @@ class AdminController extends Controller {
         $allowed = $this->currentUser->hasPermission('admin');
          if(!$allowed) {
             Session::msg("No tiene acceso a esta pagina.");
-            Router::redirect('admin/users');
+            Router::redirect('admin/cursos');
         } 
         $params = ['order' => 'lname', 'fname'];
+        $params = Users::mergeWithPagination($params);
         $this->view->users = Users::find($params);
         $this->view->total = Users::findTotal($params);
         $this->view->render();
