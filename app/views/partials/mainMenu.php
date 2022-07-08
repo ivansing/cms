@@ -44,7 +44,10 @@
                <?= H::navItem('auth/logout', 'Salir', true);?>
              </ul>
           </li>
+
+          
         <?php endif; ?>  
     </ul>
   </div>
 </nav>
+

@@ -11,7 +11,7 @@ class Users extends Model {
 
 
     const USER_PERMISSION = 'usuario';
-    const ADMIN_PERMISSION = 'administrador';
+    const ADMIN_PERMISSION = 'admin';
 
     public function beforeSave(){
         $this->timeStamps();
@@ -89,5 +89,15 @@ class Users extends Model {
         }
         if(!self::$_current_user) self::loginFromCookie();
         return self::$_current_user;
+    }
+
+    // Allowed user session in admin
+    public function hasPermission($acl) {
+        return $this->acl == $acl;
+    }
+
+    // Display names on portal
+    public function displayName(){
+        return trim($this->fname . ' ' . $this->lname);
     }
 }

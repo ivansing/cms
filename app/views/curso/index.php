@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+
 <?php $this->start('content'); ?>
-<h1>Bienvenido a nuestra Pagina</h1>
+
+    
+
+    <h2>Curso alimentos</h2>
+
 <?php $this->end(); ?>

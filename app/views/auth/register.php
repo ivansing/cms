@@ -19,7 +19,7 @@
             </div>
 
             <div class="text-right">
-                <a href="#" class="btn btn-secondary">Cancelar</a>
+                <a href="<?=ROOT?>admin/users" class="btn btn-secondary">Cancelar</a>
                 <input class="btn btn-primary" value="Grabar" type="submit" />
             </div>
         </form>

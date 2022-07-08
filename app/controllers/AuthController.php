@@ -7,6 +7,7 @@ use App\Models\Users;
 class AuthController extends Controller {
     
     public function registerAction($id = 'new') {
+        $this->view->setLayout('admin');
         if($id == 'new') {
             $user = new Users();
         } else {
@@ -29,15 +30,15 @@ class AuthController extends Controller {
                 $user->resetPassword = true;
             }
             if($user->save()) {
-                $msg = ($id == 'new')? "Usuario creador." : "Usuario actualizado";
+                $msg = ($id == 'new')? "Usuario creado." : "Usuario actualizado";
                 Session::msg($msg, 'success');
-                Router::redirect('curso/index');
+                Router::redirect('admin/users');
             }
             
         }
         $this->view->header = $id == 'new'? 'Agregar Usuario' : 'Editar Usuario';
         $this->view->user = $user;
-        $this->view->role_options = ['' => '', Users::USER_PERMISSION => 'Usuario', Users::ADMIN_PERMISSION => 'Administrador'];
+        $this->view->role_options = ['' => '', Users::USER_PERMISSION => 'Usuario', Users::ADMIN_PERMISSION => 'admin'];
         $this->view->errors = $user->getErrors();
         $this->view->render();
     }

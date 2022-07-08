@@ -19,7 +19,7 @@
 
             <div class="text-right">
                 <a href="<?=ROOT?>auth/login" class="btn btn-secondary">Cancelar</a>
-                <input class="btn btn-primary" value="Log In" type="submit" />
+                <input class="btn btn-primary" value="Ingreso" type="submit" />
             </div>
         </form>
     </div>
