@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use Core\Session;
+use App\Models\Users;
+
 class Router {
 
     public static function route($url) {
@@ -42,5 +45,15 @@ class Router {
             echo '</nosript>';
         }
         exit();
+    }
+
+    // Redirect user permission 
+    public static function permRedirect($perm, $redirect, $msg = "No tiene acceso a esta pagina.") {
+        $user = Users::getCurrentUser();
+        $allowed = $user && $user->hasPermission($perm);
+         if(!$allowed) {
+            Session::msg($msg);
+            self::redirect($redirect);
+        } 
     }
 }

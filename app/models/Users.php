@@ -88,11 +88,19 @@ class Users extends Model {
             self::$_current_user = self::findById($user_id);
         }
         if(!self::$_current_user) self::loginFromCookie();
+        // If the user is blocked
+        if(self::$_current_user && self::$_current_user->blocked) {
+            self::$_current_user->logout();
+            Session::msg('Esta bloqueado. Contactarse con el administrador por favor.');
+        }
         return self::$_current_user;
     }
 
     // Allowed user session in admin
     public function hasPermission($acl) {
+        if(\is_array($acl)) {
+            return in_array($this->acl, $acl);
+        }
         return $this->acl == $acl;
     }
 
